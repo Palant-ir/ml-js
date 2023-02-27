@@ -21,3 +21,5 @@ draw.paths = (ctx, paths, color = "black") => {
     draw.path(ctx, path, color);
   }
 };
+
+module.exports = draw;
