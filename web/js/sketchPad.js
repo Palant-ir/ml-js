@@ -47,7 +47,6 @@ class SketchPad {
     };
     document.onmouseup = () => {
       this.isDrawing = false;
-      // console.debug(this.paths);
     };
 
     // For mobile touch support
