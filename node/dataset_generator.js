@@ -1,3 +1,12 @@
+const draw = require("../common/draw");
+const fs = require("fs");
+
+// Browser has canvas by default.
+// So in the web/js, canvas can be used straight away
+const { createCanvas } = require("canvas");
+const canvas = createCanvas(400, 400);
+const ctx = canvas.getContext("2d");
+
 const constants = {};
 
 constants.DATA_DIR = "../data";
@@ -6,8 +15,6 @@ constants.DATASET_DIR = constants.DATA_DIR + "/dataset";
 constants.JSON_DIR = constants.DATASET_DIR + "/json";
 constants.IMG_DIR = constants.DATASET_DIR + "/img";
 constants.SAMPLES = constants.DATASET_DIR + "/samples.json";
-
-const fs = require("fs");
 
 const fileNames = fs.readdirSync(constants.RAW_DIR);
 const samples = [];
@@ -25,10 +32,10 @@ fileNames.forEach((fn) => {
       student_id: session,
     });
 
-    fs.writeFileSync(
-      `${constants.JSON_DIR}/${id}.json`,
-      JSON.stringify(drawings[label])
-    );
+    const paths = drawings[label];
+    fs.writeFileSync(`${constants.JSON_DIR}/${id}.json`, JSON.stringify(paths));
+
+    generateImageFile(`${constants.IMG_DIR}/${id}.png`, paths);
 
     id++;
   }
@@ -36,4 +43,13 @@ fileNames.forEach((fn) => {
 
 fs.writeFileSync(constants.SAMPLES, JSON.stringify(samples));
 
+function generateImageFile(outFile, paths) {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  draw.paths(ctx, paths);
+
+  const buffer = canvas.toBuffer("image/png");
+  fs.writeFileSync(outFile, buffer);
+}
+
+//! remove session id : 1677492622609 from raw before running script on data again
 /** save (stringify) -> read/process (parse) -> write (stringify) */
