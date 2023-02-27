@@ -1,0 +1,38 @@
+body {
+  font-family: "Courier New", Courier, monospace;
+  background-color: hsl(25, 76%, 31%);
+  overscroll-behavior: none;
+}
+
+#content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  text-align: center;
+  transform: translate(-50%, -50%);
+}
+
+#sketchPadContainer {
+  margin: 1rem;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  padding: 2px 10px;
+  height: 22px;
+  border-radius: 5px;
+  /* background-color: hsl(25, 16%, 31%); */
+  background-color: black;
+  color: hsl(25, 76%, 31%);
+}
+
+button:hover {
+  color: hsl(25, 76%, 71%);
+}
+
+button:disabled,
+button:disabled:hover {
+  cursor: not-allowed;
+  color: hsl(25, 76%, 31%);
+}
