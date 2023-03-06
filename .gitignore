@@ -5,3 +5,6 @@ node/node_modules
 
 # processed data
 data/dataset/
+
+# processed data as js object
+common/js_objects
