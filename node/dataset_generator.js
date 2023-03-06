@@ -1,4 +1,6 @@
 const draw = require("../common/draw");
+const constants = require("../common/constants.js");
+const utils = require("../common/utils.js");
 const fs = require("fs");
 
 // Browser has canvas by default.
@@ -6,15 +8,6 @@ const fs = require("fs");
 const { createCanvas } = require("canvas");
 const canvas = createCanvas(400, 400);
 const ctx = canvas.getContext("2d");
-
-const constants = {};
-
-constants.DATA_DIR = "../data";
-constants.RAW_DIR = constants.DATA_DIR + "/raw";
-constants.DATASET_DIR = constants.DATA_DIR + "/dataset";
-constants.JSON_DIR = constants.DATASET_DIR + "/json";
-constants.IMG_DIR = constants.DATASET_DIR + "/img";
-constants.SAMPLES = constants.DATASET_DIR + "/samples.json";
 
 const fileNames = fs.readdirSync(constants.RAW_DIR);
 const samples = [];
@@ -33,10 +26,12 @@ fileNames.forEach((fn) => {
     });
 
     const paths = drawings[label];
+    //json data of individual drawings
     fs.writeFileSync(`${constants.JSON_DIR}/${id}.json`, JSON.stringify(paths));
-
+    // image of individual drawings
     generateImageFile(`${constants.IMG_DIR}/${id}.png`, paths);
 
+    utils.printProgress(id, fileNames.length * 8);
     id++;
   }
 });
@@ -51,5 +46,4 @@ function generateImageFile(outFile, paths) {
   fs.writeFileSync(outFile, buffer);
 }
 
-//! remove session id : 1677492622609 from raw before running script on data again
 /** save (stringify) -> read/process (parse) -> write (stringify) */
